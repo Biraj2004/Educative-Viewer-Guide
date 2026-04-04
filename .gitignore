@@ -1,0 +1,8 @@
+node_modules
+.next
+.vscode
+package-lock.json
+.env
+.env.*
+!.env.example
+!.env.local.example

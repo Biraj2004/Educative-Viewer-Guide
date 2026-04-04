@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-background: #020617;
+  --color-foreground: #f8fafc;
+}
+@layer base {
+
+  html,
+  body {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(56, 189, 248, 0.5) rgba(15, 23, 42, 0.65);
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.65);
+  }
+
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.5);
+    border-radius: 9999px;
+    border: 2px solid rgba(15, 23, 42, 0.65);
+  }
+
+  html::-webkit-scrollbar-thumb:hover,
+  body::-webkit-scrollbar-thumb:hover {
+    background: rgba(103, 232, 249, 0.65);
+  }
+
+  html::-webkit-scrollbar-corner,
+  body::-webkit-scrollbar-corner {
+    background: rgba(15, 23, 42, 0.65);
+  }
+
+  body {
+    color: var(--color-foreground);
+    background: var(--color-background);
+    font-family: var(--font-space-grotesk), sans-serif;
+    overflow-x: hidden;
+  }
+
+  button,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  [role='button']:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: var(--font-ibm-plex-mono), monospace;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
