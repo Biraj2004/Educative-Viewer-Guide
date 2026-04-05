@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, IBM_Plex_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { BRAND_LOGO_ICON_PATH } from '@/lib/branding';
 import './globals.css';
 
@@ -40,6 +41,7 @@ export default function RootLayout({
         <main id="main-content" className="max-w-7xl mx-auto pt-5 md:pt-14 pb-2 md:pb-5">
           {children}
         </main>
+        <Analytics />
       </body>
     </html>
   );
