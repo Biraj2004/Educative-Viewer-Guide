@@ -13,6 +13,7 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [failedImageSources, setFailedImageSources] = useState<Set<string>>(new Set());
+  const [loadedImageSources, setLoadedImageSources] = useState<Set<string>>(new Set());
   const previewRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const totalImages = images.length;
@@ -54,6 +55,18 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
 
       const next = new Set(prev);
       next.delete(src);
+      return next;
+    });
+  }, []);
+
+  const markImageAsLoaded = useCallback((src: string) => {
+    setLoadedImageSources((prev) => {
+      if (prev.has(src)) {
+        return prev;
+      }
+
+      const next = new Set(prev);
+      next.add(src);
       return next;
     });
   }, []);
@@ -171,17 +184,24 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
                 : 'border-slate-800 hover:border-slate-600'
             }`}
           >
-            <div className="relative h-14 sm:h-16 md:h-20 w-full">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="240px"
-                quality={80}
-                className="object-cover"
-                onError={() => markImageAsFailed(image.src)}
-                onLoad={() => clearImageFailure(image.src)}
-              />
+            <div className="relative h-14 sm:h-16 md:h-20 w-full bg-[#020817]">
+              {!failedImageSources.has(image.src) ? (
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="240px"
+                  quality={80}
+                  className={`object-cover transition-opacity duration-200 ${
+                    loadedImageSources.has(image.src) ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  onError={() => markImageAsFailed(image.src)}
+                  onLoad={() => {
+                    clearImageFailure(image.src);
+                    markImageAsLoaded(image.src);
+                  }}
+                />
+              ) : null}
             </div>
           </button>
         ))}
