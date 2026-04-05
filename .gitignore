@@ -1,8 +1,9 @@
-node_modules
-.next
-.vscode
-package-lock.json
+node_modules/
+.next/
+.vscode/
 .env
 .env.*
 !.env.example
 !.env.local.example
+
+package-lock.json

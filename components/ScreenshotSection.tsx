@@ -139,7 +139,7 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
               alt={activeImage.alt}
               fill
               sizes={isFullscreen ? '100vw' : '(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 1100px'}
-              quality={94}
+              quality={93}
               className="object-cover"
               onError={() => markImageAsFailed(activeImage.src)}
               onLoad={() => clearImageFailure(activeImage.src)}
@@ -191,7 +191,7 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
                   alt={image.alt}
                   fill
                   sizes="240px"
-                  quality={80}
+                  quality={93}
                   className={`object-cover transition-opacity duration-200 ${
                     loadedImageSources.has(image.src) ? 'opacity-100' : 'opacity-0'
                   }`}

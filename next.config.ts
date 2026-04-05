@@ -92,6 +92,7 @@ const nextConfig: NextConfig = {
         hostname: 'grainy-gradients.vercel.app',
       },
     ],
+    qualities: [93],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 86400,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
