@@ -3,13 +3,13 @@ import type { NextConfig } from 'next';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 /**
- * CSP: safer production config
- * - Dev: allows eval for debugging
- * - Prod: uses strict-dynamic for better security
+ * CSP: compatibility-focused config for Vercel deployment
+ * - Allows required third-party assets (GitHub API, Spline, fonts, noise texture)
+ * - Keeps strong defaults while avoiding overly strict script policies
  */
 const scriptSrc = isDevelopment
-  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-  : "script-src 'self' 'unsafe-inline' 'strict-dynamic'";
+  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:"
+  : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:";
 
 /**
  * Security Headers (Production-grade)
@@ -24,9 +24,11 @@ const securityHeaders = [
       form-action 'self';
       ${scriptSrc};
       style-src 'self' 'unsafe-inline';
-      img-src 'self' data: https://avatars.githubusercontent.com https://prod.spline.design https://grainy-gradients.vercel.app;
-      connect-src 'self' https://api.github.com https://prod.spline.design https:;
+      img-src 'self' data: blob: https://avatars.githubusercontent.com https://prod.spline.design https://grainy-gradients.vercel.app https:;
+      connect-src 'self' https://api.github.com https://prod.spline.design https: wss:;
       font-src 'self' https://fonts.gstatic.com;
+      worker-src 'self' blob:;
+      frame-src 'self' https:;
       media-src 'self' https:;
       prefetch-src 'self' https:;
       object-src 'none';
