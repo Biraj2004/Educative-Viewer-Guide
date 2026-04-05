@@ -1,3 +1,11 @@
+# EducativeViewer
+
+Educative Viewer is an offline-first learning companion for extracting, organizing, and viewing educational content with a clean developer-focused workflow.
+
+Live Guide: https://educative-viewer-guide.vercel.app/
+
+View Project: https://github.com/Biraj2004/EducativeViewer/
+
 # EducativeViewer Local Setup Guide
 
 This guide shows how to run the app on your computer (Windows).
