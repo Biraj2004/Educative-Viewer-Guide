@@ -13,7 +13,7 @@ export const Navbar = () => {
 
   return (
     <header className="fixed top-0 inset-x-0 z-30 border-b border-slate-800/60 bg-background/70 backdrop-blur-xl" role="banner">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between" aria-label="Primary navigation">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-4 flex items-center justify-between" aria-label="Primary navigation">
         <Link
           href="/"
           onClick={scrollToTop}

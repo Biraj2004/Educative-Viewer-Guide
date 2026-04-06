@@ -77,7 +77,7 @@ export default function LandingPage() {
           </div>
           <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-3 justify-center md:justify-end">
             <a
-              href={activeTab === 'viewer' ? 'https://github.com/Biraj2004/EducativeViewer/releases' : 'https://github.com/anilabhadatta/educative.io_scraper'}
+              href={activeTab === 'viewer' ? 'https://github.com/Biraj2004/EducativeViewer/releases' : 'https://github.com/anilabhadatta/educative.io_scraper/releases'}
               target="_blank"
               rel="noreferrer"
               className="w-3/4 md:w-auto text-center px-6 sm:px-8 py-4 bg-white text-slate-950 hover:bg-cyan-100 transition-colors font-bold rounded-xl shadow-lg ring-4 ring-white/10"

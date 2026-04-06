@@ -123,7 +123,7 @@ export const ReleaseVersion = ({ owner, repo }: ReleaseVersionProps) => {
   }, [owner, repo]);
 
   return (
-    <div className="w-3/4 md:w-auto rounded-xl border border-cyan-900/40 bg-cyan-950/20 px-4 py-3 text-sm text-cyan-200 min-w-0 md:min-w-42.5 text-center">
+    <div className="w-1/2 md:w-auto rounded-xl border border-cyan-900/40 bg-cyan-950/20 px-4 py-3 text-sm text-cyan-200 min-w-0 md:min-w-42.5 text-center">
       <div>
         <span className="text-cyan-300/80">Release:</span>{' '}
         <span className="font-semibold">{loading ? 'loading...' : version}</span>
