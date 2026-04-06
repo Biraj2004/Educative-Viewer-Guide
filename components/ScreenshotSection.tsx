@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { TouchEvent } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react';
@@ -15,6 +16,8 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
   const [failedImageSources, setFailedImageSources] = useState<Set<string>>(new Set());
   const [loadedImageSources, setLoadedImageSources] = useState<Set<string>>(new Set());
   const previewRef = useRef<HTMLDivElement>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const totalImages = images.length;
   const activeImage = images[activeIndex] ?? images[0];
@@ -83,6 +86,31 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
     await previewElement.requestFullscreen();
   };
 
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
+    touchEndXRef.current = null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    touchEndXRef.current = event.changedTouches[0]?.clientX ?? null;
+
+    if (touchStartXRef.current === null || touchEndXRef.current === null) {
+      return;
+    }
+
+    const deltaX = touchStartXRef.current - touchEndXRef.current;
+    const swipeThreshold = 40;
+
+    if (deltaX > swipeThreshold) {
+      goToNext();
+      return;
+    }
+
+    if (deltaX < -swipeThreshold) {
+      goToPrevious();
+    }
+  };
+
   if (!activeImage) {
     return null;
   }
@@ -120,7 +148,11 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
           </button>
         </div>
 
-        <div className="w-full aspect-video bg-slate-900 overflow-hidden relative flex items-center justify-center">
+        <div
+          className="w-full aspect-video bg-slate-900 overflow-hidden relative flex items-center justify-center"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {isActiveImageFailed ? (
             <div
               role="status"
@@ -151,7 +183,7 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
             onClick={goToPrevious}
             onMouseDown={(event) => event.preventDefault()}
             aria-label="Previous image"
-            className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-slate-600/60 bg-slate-950/60 backdrop-blur-md text-slate-200 hover:text-cyan-300 hover:border-cyan-400/50 active:text-slate-200 active:border-slate-600/60 focus:outline-none focus-visible:outline-none focus-visible:ring-0 transition-all flex items-center justify-center cursor-pointer touch-manipulation select-none appearance-none"
+            className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-slate-600/60 bg-slate-950/60 backdrop-blur-md text-slate-200 hover:text-cyan-300 hover:border-cyan-400/50 active:text-slate-200 active:border-slate-600/60 focus:outline-none focus-visible:outline-none focus-visible:ring-0 transition-all hidden lg:flex items-center justify-center cursor-pointer touch-manipulation select-none appearance-none"
             style={{ WebkitTapHighlightColor: 'transparent' }}
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -162,13 +194,15 @@ export const ScreenshotSection = ({ images }: ScreenshotSectionProps) => {
             onClick={goToNext}
             onMouseDown={(event) => event.preventDefault()}
             aria-label="Next image"
-            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-slate-600/60 bg-slate-950/60 backdrop-blur-md text-slate-200 hover:text-cyan-300 hover:border-cyan-400/50 active:text-slate-200 active:border-slate-600/60 focus:outline-none focus-visible:outline-none focus-visible:ring-0 transition-all flex items-center justify-center cursor-pointer touch-manipulation select-none appearance-none"
+            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-slate-600/60 bg-slate-950/60 backdrop-blur-md text-slate-200 hover:text-cyan-300 hover:border-cyan-400/50 active:text-slate-200 active:border-slate-600/60 focus:outline-none focus-visible:outline-none focus-visible:ring-0 transition-all hidden lg:flex items-center justify-center cursor-pointer touch-manipulation select-none appearance-none"
             style={{ WebkitTapHighlightColor: 'transparent' }}
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
       </motion.div>
+
+      <p className="text-center text-xs text-slate-400 lg:hidden">Swipe left or right to view screenshots</p>
 
       <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3">
         {images.map((image, index) => (
