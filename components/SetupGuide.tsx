@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { SetupGuideScrapper } from '@/components/SetupGuideScrapper';
 
 interface SetupGuideProps {
   type: 'viewer' | 'scraper';
@@ -6,29 +7,7 @@ interface SetupGuideProps {
 
 export const SetupGuide = ({ type }: SetupGuideProps) => {
   if (type === 'scraper') {
-    return (
-      <div className="w-full max-w-3xl mx-auto space-y-6 md:space-y-8">
-        <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5 md:p-6">
-          <h3 className="text-lg md:text-xl font-bold text-white mb-3">Scraper Overview</h3>
-          <p className="text-slate-300 leading-relaxed">
-            The scraper extracts course content into structured JSON artifacts for downstream use in local viewer workflows.
-            It is maintained in a separate repository and should be treated as a companion data-preparation tool.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5 md:p-6">
-          <h3 className="text-lg md:text-xl font-bold text-white mb-3">Getting Started</h3>
-          <pre className="rounded-xl border border-slate-800 bg-[#0A0B10] p-4 sm:p-5 text-xs sm:text-sm text-slate-200 overflow-x-auto leading-relaxed">
-{`git clone https://github.com/anilabhadatta/educative.io_scraper.git
-cd educative.io_scraper
-pip install -r requirements.txt
-
-# Configure and run based on the repository docs
-python main.py`}
-          </pre>
-        </div>
-      </div>
-    );
+    return <SetupGuideScrapper />;
   }
 
   return (

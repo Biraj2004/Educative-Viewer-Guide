@@ -69,10 +69,10 @@ export default function LandingPage() {
         <div className="mb-10 md:mb-16 text-center md:text-left flex items-center justify-between flex-wrap gap-5 md:gap-8 z-10 relative">
           <div className="mx-auto md:mx-0">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold mb-3 md:mb-4 tracking-tight leading-tight">
-              {activeTab === 'viewer' ? 'Educative Viewer Complete Setup Guide' : 'Scraper Pipeline Notes'}
+              {activeTab === 'viewer' ? 'Educative Viewer Complete Setup Guide' : 'Scraper Complete Setup Guide'}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base md:text-xl leading-relaxed">
-              {activeTab === 'viewer' ? 'Detailed setup and run guide for this Next.js repository on Windows, including install, local dev, production build, and release usage.' : 'Companion extraction setup and handoff notes for JSON output generation.'}
+              {activeTab === 'viewer' ? 'Detailed setup and run guide for this Next.js repository on Windows, including install, local dev, production build, and release usage.' : 'Companion Extraction Setup and Course Downloader developed using Python and Selenium.'}
             </p>
           </div>
           <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-3 justify-center md:justify-end">
