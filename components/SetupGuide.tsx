@@ -171,9 +171,15 @@ VERCEL_ENV=development
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li>Use proxy/nginx-windows.conf</li>
               <li>Keep only one active localhost:80 server block</li>
-              <li>Set root to C:/inetpub/wwwroot/educativeviewer</li>
+              <li>Set root to</li>
+              <div className="mt-1 overflow-x-auto rounded-md border border-slate-800 bg-[#0A0B10] px-2 py-1">
+                <span className="inline-block min-w-max font-mono text-xs text-slate-200">C:/inetpub/wwwroot/educativeviewer</span>
+              </div>
               <li>Ensure upstreams map to Flask:5000 and Next:3000</li>
-              <li>Create C:/inetpub/wwwroot/educativeviewer/api/images</li>
+              <li>Create</li>
+              <div className="mt-1 overflow-x-auto rounded-md border border-slate-800 bg-[#0A0B10] px-2 py-1">
+                <span className="inline-block min-w-max font-mono text-xs text-slate-200">C:/inetpub/wwwroot/educativeviewer/api/images</span>
+              </div>
             </ul>
             <pre className="mt-4 rounded-lg border border-slate-800 bg-[#0A0B10] p-4 text-[11px] sm:text-xs text-slate-200 overflow-x-auto leading-relaxed">nginx -t{`\n`}nginx -s reload</pre>
           </article>

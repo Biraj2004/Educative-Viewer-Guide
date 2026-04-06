@@ -12,7 +12,7 @@ export const Footer = () => {
             <span className="text-slate-200">Educative Viewer</span>
           </div>
 
-          <p className="text-slate-400 text-center">© 2026 Crafted with precision</p>
+          <p className="text-slate-400 text-center">© 2026 rafted with precision</p>
 
           <a
             href="https://github.com/Biraj2004/EducativeViewer"
