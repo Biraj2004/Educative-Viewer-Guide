@@ -9,7 +9,7 @@ export const SetupGuideScrapper = () => {
 				viewport={{ once: true }}
 				className="grid gap-6 md:grid-cols-3"
 			>
-				<article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+				<article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
 					<h3 className="text-lg font-semibold text-white">Prerequisites</h3>
 					<ul className="mt-3 space-y-2 text-slate-300 text-sm">
 						<li>Git</li>
@@ -18,7 +18,7 @@ export const SetupGuideScrapper = () => {
 					</ul>
 				</article>
 
-				<article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+				<article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
 					<h3 className="text-lg font-semibold text-white">Repository Info</h3>
 					<ul className="mt-3 space-y-2 text-slate-300 text-sm">
 						<li>Repository Version: v4.0.20 (Recommended)</li>
@@ -27,7 +27,7 @@ export const SetupGuideScrapper = () => {
 					</ul>
 				</article>
 
-				<article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+				<article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
 					<h3 className="text-lg font-semibold text-white">Updates Information</h3>
 					<ul className="mt-3 space-y-2 text-slate-300 text-sm">
 						<li>Topic content now stored in DB for dynamic viewer rendering.</li>
@@ -184,27 +184,27 @@ python3 EducativeScraper.py --help          # Config and help`}
 				<h3 className="text-xl sm:text-2xl font-bold text-white">7. Resume, Overwrite, and Assets</h3>
 
 				<div className="grid gap-4 md:grid-cols-2">
-					<div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+					<div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
 						<p className="font-semibold text-white mb-2">Projects URL rule</p>
 						<p>For projects, add the project link in the text file and do not add the first topic link of the project.</p>
 					</div>
 
-					<div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+					<div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
 						<p className="font-semibold text-white mb-2">Auto Resume</p>
 						<p>Auto Resume tries each URL up to 3 times when errors occur before marking failure.</p>
 					</div>
 
-					<div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+					<div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
 						<p className="font-semibold text-white mb-2">Auto Fix URL</p>
 						<p>Auto Fix URL updates the text file and removes completed URLs to avoid unnecessary rescraping.</p>
 					</div>
 
-					<div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+					<div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
 						<p className="font-semibold text-white mb-2">DB and Overwrite</p>
 						<p>DB tracks topic scraping status to resume leftovers. Enable Overwrite if you need a fresh overwrite run.</p>
 					</div>
 
-					<div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300 md:col-span-2">
+					<div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300 md:col-span-2">
 						<p className="font-semibold text-white mb-2">Assets</p>
 						<ul className="list-disc pl-5 space-y-1">
 							<li>Extract Assets: run only if you want to extract assets again.</li>

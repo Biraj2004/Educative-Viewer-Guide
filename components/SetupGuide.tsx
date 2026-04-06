@@ -18,7 +18,7 @@ export const SetupGuide = ({ type }: SetupGuideProps) => {
         viewport={{ once: true }}
         className="grid gap-6 md:grid-cols-3"
       >
-        <article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+        <article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
           <h3 className="text-lg font-semibold text-white">Prerequisites</h3>
           <ul className="mt-3 space-y-2 text-slate-300 text-sm">
             <li>Node.js 18+</li>
@@ -27,7 +27,7 @@ export const SetupGuide = ({ type }: SetupGuideProps) => {
           </ul>
         </article>
 
-        <article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+        <article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
           <h3 className="text-lg font-semibold text-white">Project Layout</h3>
           <ul className="mt-3 space-y-2 text-slate-300 text-sm">
             <li>client/ - Next.js frontend</li>
@@ -36,7 +36,7 @@ export const SetupGuide = ({ type }: SetupGuideProps) => {
           </ul>
         </article>
 
-        <article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+        <article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
           <h3 className="text-lg font-semibold text-white">Recommended Flow</h3>
           <ul className="mt-3 space-y-2 text-slate-300 text-sm">
             <li>Start backend first</li>
@@ -166,7 +166,7 @@ VERCEL_ENV=development
         </p>
 
         <div className="grid gap-5 md:grid-cols-2">
-          <article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+          <article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
             <h4 className="font-semibold text-white">Nginx (Windows)</h4>
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li>Use proxy/nginx-windows.conf</li>
@@ -178,7 +178,7 @@ VERCEL_ENV=development
             <pre className="mt-4 rounded-lg border border-slate-800 bg-[#0A0B10] p-4 text-[11px] sm:text-xs text-slate-200 overflow-x-auto leading-relaxed">nginx -t{`\n`}nginx -s reload</pre>
           </article>
 
-          <article className="rounded-xl border border-slate-800 bg-slate-950/70 p-5">
+          <article className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-5">
             <h4 className="font-semibold text-white">Apache (Windows)</h4>
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li>Use proxy/apache-windows.conf</li>
@@ -207,7 +207,7 @@ VERCEL_ENV=development
         </pre>
 
         <p className="text-sm text-slate-400">
-          For full routing validation, use proxy URL <span className="text-cyan-300 break-all">http://localhost</span>
+          For full routing validation, use proxy URL <span className="text-cyan-300 break-all">http://localhost </span>
           instead of direct frontend URL.
         </p>
       </motion.section>
@@ -243,22 +243,29 @@ VERCEL_ENV=development
         <h3 className="text-xl sm:text-2xl font-bold text-white">8. Troubleshooting</h3>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+          <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
             <p className="font-semibold text-white mb-2">Frontend starts, API fails</p>
-            <p>Ensure backend runs on port 5000 and client .env.local has NEXT_PUBLIC_BACKEND_API_BASE=http://localhost/</p>
+            <p>Ensure backend runs on port 5000 and client .env.local has</p>
+            <div className="mt-1 overflow-x-auto rounded-md border border-slate-800 bg-[#0A0B10] px-2 py-1">
+              <span className="inline-block min-w-max font-mono text-xs text-slate-200">NEXT_PUBLIC_BACKEND_API_BASE=http://localhost/</span>
+            </div>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+          <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
             <p className="font-semibold text-white mb-2">Images return 404 through proxy</p>
-            <p>Confirm file exists under C:/inetpub/wwwroot/educativeviewer/api/... and proxy paths match exactly.</p>
+            <p>Confirm file exists under</p>
+            <div className="mt-1 overflow-x-auto rounded-md border border-slate-800 bg-[#0A0B10] px-2 py-1">
+              <span className="inline-block min-w-max font-mono text-xs text-slate-200">C:/inetpub/wwwroot/educativeviewer/api/...</span>
+            </div>
+            <p className="mt-2">and proxy paths match exactly.</p>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+          <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
             <p className="font-semibold text-white mb-2">Frontend command confusion</p>
             <p>For this workflow use node deploy.js from client and choose menu option 2 or 4.</p>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+          <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
             <p className="font-semibold text-white mb-2">Port already in use</p>
             <p>Update conflicting ports in proxy config and matching environment variables.</p>
           </div>
