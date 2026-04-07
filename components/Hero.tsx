@@ -2,9 +2,10 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { SplineBackdrop } from '@/components/SplineBackdrop';
+import { ScrollIndicator } from '@/components/ScrollIndicator';
 
 export const Hero = () => {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion() ?? false;
 
   const scrollToGuide = () => {
     const guideSection = document.getElementById('guide');
@@ -39,37 +40,8 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-[64vh] md:min-h-[80vh] pt-20 md:pt-24 flex flex-col items-center justify-center text-center overflow-hidden">
-      <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: prefersReducedMotion ? 0 : 0.4, duration: prefersReducedMotion ? 0.01 : 0.45 }}
-        className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center"
-      >
-        <div className="text-[11px] tracking-[0.5em] text-slate-400/80 [writing-mode:vertical-lr]">SCROLL</div>
-        <div className="mt-2 h-16 w-px bg-slate-700/60 relative overflow-hidden">
-          <motion.div
-            className="absolute left-0 right-0 h-5 bg-linear-to-b from-cyan-400/0 via-cyan-300/85 to-cyan-400/0 blur-[0.5px]"
-            animate={prefersReducedMotion ? { opacity: 0 } : { y: ['-120%', '220%'], opacity: [0, 1, 0] }}
-            transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 2.4, ease: 'linear' }}
-          />
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: prefersReducedMotion ? 0 : 0.4, duration: prefersReducedMotion ? 0.01 : 0.45 }}
-        className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center"
-      >
-        <div className="text-[11px] tracking-[0.5em] text-slate-400/80 [writing-mode:vertical-rl]">SCROLL</div>
-        <div className="mt-2 h-16 w-px bg-slate-700/60 relative overflow-hidden">
-          <motion.div
-            className="absolute left-0 right-0 h-5 bg-linear-to-b from-cyan-400/0 via-cyan-300/85 to-cyan-400/0 blur-[0.5px]"
-            animate={prefersReducedMotion ? { opacity: 0 } : { y: ['-120%', '220%'], opacity: [0, 1, 0] }}
-            transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 2.4, ease: 'linear' }}
-          />
-        </div>
-      </motion.div>
+      <ScrollIndicator side="left" prefersReducedMotion={prefersReducedMotion} />
+      <ScrollIndicator side="right" prefersReducedMotion={prefersReducedMotion} />
 
       {/* Background Gradient Mesh */}
       <div className="absolute inset-0 pointer-events-none mask-[linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]">
