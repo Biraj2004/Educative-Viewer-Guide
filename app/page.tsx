@@ -42,7 +42,7 @@ export default function LandingPage() {
           avatarInitial="B"
           gradient="from-blue-600 to-indigo-600"
           projects={[
-            { name: 'EducativeViewer', type: 'Public Release', url: 'https://github.com/Biraj2004/EducativeViewer', badgeColor: 'text-cyan-400' }
+            { name: 'educative-viewer', type: 'Releases', url: 'https://github.com/Biraj2004/educative-viewer/releases', badgeColor: 'text-cyan-400' }
           ]}
         />
         <AuthorCard 
@@ -69,15 +69,15 @@ export default function LandingPage() {
         <div className="mb-10 md:mb-16 text-center md:text-left flex items-center justify-between flex-wrap gap-5 md:gap-8 z-10 relative">
           <div className="mx-auto md:mx-0">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold mb-3 md:mb-4 tracking-tight leading-tight">
-              {activeTab === 'viewer' ? 'Educative Viewer Complete Setup Guide' : 'Scraper Complete Setup Guide'}
+              {activeTab === 'viewer' ? 'educative-viewer Complete Setup Guide' : 'Scraper Complete Setup Guide'}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base md:text-xl leading-relaxed">
-              {activeTab === 'viewer' ? 'Detailed setup and run guide for this Next.js repository on Windows, including install, local dev, production build, and release usage.' : 'Companion Extraction Setup and Course Downloader developed using Python and Selenium.'}
+              {activeTab === 'viewer' ? 'Full-stack setup workflow for educative-viewer: architecture, backend bootstrap, frontend build-and-run flow, environment variables, proxy routing, and troubleshooting.' : 'Companion Extraction Setup and Course Downloader developed using Python and Selenium.'}
             </p>
           </div>
           <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-3 justify-center md:justify-end">
             <a
-              href={activeTab === 'viewer' ? 'https://github.com/Biraj2004/EducativeViewer/releases' : 'https://github.com/anilabhadatta/educative.io_scraper/releases'}
+              href={activeTab === 'viewer' ? 'https://github.com/Biraj2004/educative-viewer/releases' : 'https://github.com/anilabhadatta/educative.io_scraper/releases'}
               target="_blank"
               rel="noreferrer"
               className="w-3/4 md:w-auto text-center px-6 sm:px-8 py-4 bg-white text-slate-950 hover:bg-cyan-100 transition-colors font-bold rounded-xl shadow-lg ring-4 ring-white/10"
@@ -85,7 +85,7 @@ export default function LandingPage() {
               Download {activeTab === 'viewer' ? 'Viewer' : 'Scraper'}
             </a>
             {activeTab === 'viewer' ? (
-              <ReleaseVersion owner="Biraj2004" repo="EducativeViewer" />
+              <ReleaseVersion owner="Biraj2004" repo="educative-viewer" />
             ) : (
               <ReleaseVersion owner="anilabhadatta" repo="educative.io_scraper" />
             )}

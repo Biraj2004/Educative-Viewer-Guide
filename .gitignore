@@ -7,3 +7,5 @@ node_modules/
 !.env.local.example
 
 package-lock.json
+
+README_NEW.md

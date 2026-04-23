@@ -1,149 +1,197 @@
-# EducativeViewer
+# Educative Viewer Guide
 
-Educative Viewer is an offline-first learning companion for extracting, organizing, and viewing educational content with a clean developer-focused workflow.
+This repository powers the official setup guide website for EducativeViewer.
 
-Live Guide: https://educative-viewer-guide.vercel.app/
+- Live Guide: https://educative-viewer-guide.vercel.app/
+- Viewer Project: https://github.com/Biraj2004/educative-viewer/
+- Guide Source: https://github.com/Biraj2004/Educative-Viewer-Guide
 
-View Project: https://github.com/Biraj2004/EducativeViewer/
+## What This Guide Covers
 
-# EducativeViewer Local Setup Guide
+This guide is focused on local setup and verification for the viewer stack:
 
-This guide shows how to run the app on your computer (Windows).
+- Backend setup (Flask)
+- Frontend setup (Next.js builder workflow)
+- Local proxy setup (Nginx or Apache)
+- Environment variable reference
+- Troubleshooting and verification steps
 
-It covers:
-- Backend (Flask)
-- Frontend (Next.js)
-- Local reverse proxy (Nginx or Apache)
-- Serving images through the local proxy
+## Table of Contents
 
-## 1. Prerequisites
+- [Architecture Overview](#architecture-overview)
+- [Prerequisites](#prerequisites)
+- [Repository Structure](#repository-structure)
+- [Backend Setup (Flask)](#backend-setup-flask)
+- [Frontend Setup (Nextjs)](#frontend-setup-nextjs)
+- [Environment Variables Reference](#environment-variables-reference)
+- [Local Proxy Setup](#local-proxy-setup)
+- [Start Order Quick Reference](#start-order-quick-reference)
+- [Verify Image Proxy](#verify-image-proxy)
+- [Troubleshooting](#troubleshooting)
+- [Related Documentation](#related-documentation)
 
-Install these first:
+## Architecture Overview
+
+```text
+Browser -> Nginx / Apache  (:80)
+			 |- /api/*  -> Flask       (:5000)   known API routes
+			 |- /api/*  -> local disk            static / image assets
+			 \- /*      -> Next.js     (:3000)   everything else
+```
+
+| Layer | Technology | Default Port |
+|---|---|---|
+| Frontend | Next.js App Router (React 19, TypeScript, Tailwind v4) | `3000` |
+| Backend | Flask (Python 3.10+) | `5000` |
+| Auth DB | Oracle or SQLite (configured via env) | - |
+| Course DB | SQLite (optional shard mapping) | - |
+| Reverse Proxy | Nginx or Apache | `80` |
+
+## Prerequisites
+
+Install these before setup:
+
 - Node.js 18+
 - Python 3.10+
-- Nginx or Apache (only if you want local proxy routing)
+- Nginx or Apache (needed only for local proxy routing)
 
-## 2. Folder Overview
+## Repository Structure
 
-- `client/`: Next.js frontend
-- `server/`: Flask backend
-- `proxy/`: Ready-to-use Nginx/Apache config files
+```text
+educative-viewer/
+|- client/                  # Next.js frontend
+|- server/                  # Flask backend
+|  |- backend/
+|  |  |- routes/            # Auth, courses, admin, contact endpoints
+|  |  |- db/                # SQLite + Oracle adapters, DB manager
+|  |  |- auth_service.py    # JWT, RSA, session, 2FA logic
+|  |  \- config.py          # AppConfig env parsing
+|  |- app.py                # Flask app entrypoint
+|  \- setup_and_run.py      # First-time setup helper
+|- proxy/                   # Nginx and Apache config files
+|- Cloudflare_Vercel.md
+|- CONTRIBUTING.md
+|- SECURITY.md
+\- README.md
+```
 
-## 3. Backend Setup (Flask)
+## Backend Setup (Flask)
 
-Open PowerShell in the project root, then run:
+Open a terminal in the `server/` directory.
+
+### First-time setup
 
 ```powershell
 cd server
 
-# If you do not have a virtual environment yet:
+# Create and activate a virtual environment
 python -m venv env
-
-# Activate virtual environment:
 .\env\Scripts\Activate.ps1
 
-# Install backend dependencies:
+# Install dependencies
 pip install -r requirements.txt
 
-# Create .env from sample:
-Copy-Item .env.example .env
+# Run one-time setup helper
+python setup_and_run.py
 ```
 
-Open `server/.env` and set at least these values:
+`setup_and_run.py` handles:
 
-```env
-FLASK_PORT=5000
-FLASK_DEBUG=1
-AUTH_DB_ENGINE=sqlite
-AUTH_SQLITE_DB_PATH=/path/to/your/auth.sqlite3
-COURSE_DB_ENGINE=sqlite
-COURSE_SQLITE_DB_PATH=/path/to/your/course_db.sqlite3
-JWT_SECRET=change-this-for-local-dev
-INVITE_CODES=localcode
-```
+1. RSA-2048 key generation and `RSA_PRIVATE_KEY` injection into `server/.env`
+2. Printing the RSA public key for frontend use (`NEXT_PUBLIC_RSA_PUBLIC_KEY`)
+3. Prompting required server `.env` values
+4. Optional immediate Flask startup
 
-Notes:
-- `AUTH_SQLITE_DB_PATH` is for user/auth data. The SQLite file is created if it does not exist.
-- `COURSE_SQLITE_DB_PATH` should point to your course database file.
-- Leave Oracle values in `.env` untouched if you are using SQLite.
-
-Start backend:
+### Subsequent runs
 
 ```powershell
+cd server
+.\env\Scripts\Activate.ps1
 python app.py
 ```
 
-Keep this terminal running.
+Keep this terminal running while using the frontend.
 
-## 4. Frontend Setup (Next.js)
+## Frontend Setup (Next.js)
 
-Open a second PowerShell terminal:
+Open a second terminal in the `client/` directory:
 
 ```powershell
 cd client
-Copy-Item .env.local.example .env.local
+npm install
+node build-and-run.js
 ```
 
-Open `client/.env.local` and set:
+Builder menu options:
 
-```env
-NEXT_PUBLIC_BACKEND_API_BASE=http://localhost/
-NEXT_PUBLIC_STATIC_FILES_BASE=http://localhost/
-VERCEL_ENV=development
+```text
+1) Full build + obfuscate + zip + create new release
+2) Full build + obfuscate + zip + upload to existing release
+3) Build + obfuscate + zip only (no upload)
+4) Build + obfuscate + run local server
+5) Build only (no obfuscation) + zip
+6) Build and run local server
+7) Upload existing .next.zip to existing release
+8) Upload existing .next.zip as new release
+9) Manage saved GitHub repos
+0) Exit
 ```
 
-If your backend logs show an RSA private/public key message, copy the public key value to:
+For local development, choose option `6`.
 
-```env
-NEXT_PUBLIC_RSA_PUBLIC_KEY=your-public-key-here
-```
-
-Start frontend:
+### Non-interactive commands
 
 ```powershell
-node deploy.js
+node build-and-run.js local      # prompt env -> build -> obfuscate -> start server
+node build-and-run.js serve      # prompt env -> start server (requires existing .next)
+node build-and-run.js build      # prompt env -> build -> obfuscate -> zip
+node build-and-run.js build:only # prompt env -> build (no obfuscation) -> zip
+node build-and-run.js upload     # zip -> upload to existing release
+node build-and-run.js release    # zip -> create new release
+node build-and-run.js download   # download .next.zip from a release
 ```
 
-Then choose one of these options from the menu:
-- `2`: Download zip from GitHub Releases + run locally
-- `4`: Run locally (uses existing `.next.zip`)
+## Environment Variables Reference
 
-Frontend runs on: `http://localhost:3000`
+| Variable | Description | Local Default |
+|---|---|---|
+| `NEXT_PUBLIC_BACKEND_API_BASE` | Base URL of Flask backend | `http://localhost/` |
+| `NEXT_PUBLIC_STATIC_FILES_BASE` | Base URL for static/image assets | `http://localhost/` |
+| `NEXT_PUBLIC_RSA_PUBLIC_KEY` | RSA public key printed by `setup_and_run.py` | paste backend output |
+| `NEXT_PUBLIC_STATIC_BASIC_AUTH` | Optional Basic Auth for protected static worker | leave blank if unused |
+| `PROXY_SECRET` | Shared secret for `x-edu-proxy` header | not required locally |
+| `VERCEL_ENV` | Deployment environment identifier | `development` |
 
-## 5. Local Proxy Setup (API Split + Local Images)
+Important: in production (`VERCEL_ENV=production`), middleware enforces `x-edu-proxy == PROXY_SECRET`. Use `VERCEL_ENV=development` for local runs.
 
-Use this when you want one local URL that:
-- Sends real backend API routes to Flask
-- Serves image/static files from local disk under `/api`
-- Sends everything else to Next.js
+## Local Proxy Setup
+
+Use proxy mode when you want one `http://localhost` URL that:
+
+- Routes known backend API paths (`/api/*`) to Flask (`:5000`)
+- Serves static/image files from local disk under `/api`
+- Forwards everything else to Next.js (`:3000`)
 
 ### Option A: Nginx (Windows)
 
-1. Use config: [proxy/nginx-windows.conf](proxy/nginx-windows.conf)
-2. If your main `nginx.conf` already has a default `server { ... }` block on port 80, comment/remove it before using this project server block.
-3. Keep only one active `localhost:80` server block for this app, otherwise Nginx may serve the wrong site.
-4. In the file, confirm these values:
+1. Use [proxy/nginx-windows.conf](proxy/nginx-windows.conf)
+2. Ensure only one active `localhost:80` server block exists
+3. Confirm config values:
 
 ```nginx
 server_name localhost;
 root C:/inetpub/wwwroot/educativeviewer;
 # Flask upstream: 127.0.0.1:5000
-# Next upstream: 127.0.0.1:3000
+# Next.js upstream: 127.0.0.1:3000
 ```
 
-5. Create local static folder:
+4. Create local static folder:
 
 ```text
-C:/inetpub/wwwroot/educativeviewer/api/images
+C:/inetpub/wwwroot/educativeviewer/api/images/
 ```
 
-6. Put image files there, for example:
-
-```text
-C:/inetpub/wwwroot/educativeviewer/api/images/logo.png
-```
-
-7. Test and reload Nginx:
+5. Validate and reload:
 
 ```powershell
 nginx -t
@@ -152,78 +200,117 @@ nginx -s reload
 
 ### Option B: Apache (Windows)
 
-1. Use config: [proxy/apache-windows.conf](proxy/apache-windows.conf)
-2. If your main Apache config already has a default `<VirtualHost *:80>` for localhost, disable/comment it when enabling this project vhost.
-3. Keep only one active `localhost:80` vhost for this app, otherwise requests may go to the wrong virtual host.
-4. Confirm `Alias` path points to:
+1. Use [proxy/apache-windows.conf](proxy/apache-windows.conf)
+2. Ensure only one active `localhost:80` virtual host exists
+3. Confirm Alias path:
 
 ```text
 C:/inetpub/wwwroot/educativeviewer/api/
 ```
 
-5. Put images in:
+4. Put static images under:
 
 ```text
-C:/inetpub/wwwroot/educativeviewer/api/images
+C:/inetpub/wwwroot/educativeviewer/api/images/
 ```
 
-6. Test and restart Apache:
+5. Validate and restart:
 
 ```powershell
 httpd -t
 httpd -k restart
 ```
 
-## 6. Start Order (Quick)
+## Start Order Quick Reference
 
-1. Start backend in `server/`:
+1. Start backend
 
 ```powershell
+cd server
+.\env\Scripts\Activate.ps1
 python app.py
 ```
 
-2. Start frontend in `client/`:
+2. Start frontend
 
 ```powershell
-node deploy.js
+cd client
+node build-and-run.js
+# choose option 6
 ```
 
-Choose option `2` or option `4`.
+3. Start or reload proxy
 
-3. Start or reload Nginx/Apache with the proxy config.
-4. Open: `http://localhost`
+```powershell
+# Nginx
+nginx -s reload
 
-Use `http://localhost` (proxy) instead of `http://localhost:3000` when testing full local routing.
+# Apache
+httpd -k restart
+```
 
-## 7. Verify Image Proxy
+4. Open app
 
-After adding `logo.png` to:
+```text
+http://localhost
+```
+
+Use `http://localhost` (proxy) instead of `http://localhost:3000` for full routing behavior.
+
+## Verify Image Proxy
+
+Place a test image at:
 
 ```text
 C:/inetpub/wwwroot/educativeviewer/api/images/logo.png
 ```
 
-Open this URL in your browser:
+Open:
 
-`http://localhost/api/images/logo.png`
+```text
+http://localhost/api/images/logo.png
+```
 
-If the image opens, local proxy image serving is working.
+If it renders, static proxy routing is working.
 
-## 8. Troubleshooting
+## Troubleshooting
 
-### Frontend starts but API fails
-- Confirm backend is running on port `5000`.
-- Confirm `NEXT_PUBLIC_BACKEND_API_BASE=http://localhost/` in `client/.env.local`.
+### API calls fail from frontend
 
-### Frontend does not start with npm commands
-- Use `node deploy.js` instead of `npm install` / `npm run dev`.
-- In the menu, choose option `2` or `4` for local run.
+- Confirm Flask is running on `5000`
+- Confirm `NEXT_PUBLIC_BACKEND_API_BASE=http://localhost/`
+- Confirm proxy routes `/api/*` to Flask
+
+### Frontend does not start
+
+- Use `node build-and-run.js` (not `npm run dev`)
+- Choose option `6`
+- To serve existing build only:
+
+```powershell
+node build-and-run.js serve
+```
 
 ### Images return 404 through proxy
-- Confirm file exists under `C:/inetpub/wwwroot/educativeviewer/api/...`.
-- Confirm proxy root/alias paths match your real folder.
+
+- Confirm file exists under `C:/inetpub/wwwroot/educativeviewer/api/...`
+- Confirm Nginx `root` or Apache `Alias` matches disk path exactly
 
 ### Port already in use
-- Change the port in config and matching env values.
 
-Once all three services are running, use `http://localhost` as your main local app URL.
+- Change conflicting port in proxy config
+- Update matching frontend env values
+
+### Session expires or login redirects unexpectedly
+
+- Confirm `NEXT_PUBLIC_RSA_PUBLIC_KEY` exactly matches output from `setup_and_run.py`
+- RSA mismatch can break browser-side encryption and auth flow
+
+## Related Documentation
+
+- [Cloudflare_Vercel.md](Cloudflare_Vercel.md)
+- [proxy/README.md](proxy/README.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [SECURITY.md](SECURITY.md)
+
+Main usage note: once backend, frontend, and proxy are running, use `http://localhost` as your primary local URL.

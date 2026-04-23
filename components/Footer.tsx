@@ -15,12 +15,12 @@ export const Footer = () => {
           <p className="text-slate-400 text-center">© 2026 crafted with precision</p>
 
           <a
-            href="https://github.com/Biraj2004/EducativeViewer"
+            href="https://github.com/Biraj2004/educative-viewer/releases"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center md:justify-end gap-1.5 text-slate-300 hover:text-cyan-300 transition-colors font-medium"
           >
-            About Project
+            educative-viewer
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
         </div>

@@ -83,7 +83,7 @@ export const Hero = () => {
             Open Setup Guide
           </button>
           <a
-            href="https://github.com/Biraj2004/EducativeViewer/releases"
+            href="https://github.com/Biraj2004/educative-viewer/releases"
             target="_blank"
             rel="noreferrer"
             className="rounded-xl border border-slate-700 bg-slate-950/60 px-6 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-cyan-500/40 hover:text-cyan-300 w-3/4 lg:w-auto text-center"
