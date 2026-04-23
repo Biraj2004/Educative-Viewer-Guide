@@ -25,7 +25,7 @@ export const Navbar = () => {
         </Link>
 
         <Link
-          href="https://github.com/Biraj2004/educative-viewer/releases"
+          href="https://github.com/Biraj2004/educative-viewer/"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-2 rounded-md border border-transparent px-2.5 py-1.5 text-slate-300 text-sm sm:text-base font-medium transition-all hover:border-cyan-500/30 hover:bg-slate-900/60 hover:text-cyan-300"
